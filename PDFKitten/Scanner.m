@@ -18,6 +18,7 @@
 }
 
 - (NSArray *)select:(NSString *)keyword {
+    self.content = [NSMutableString string];
 	self.stringDetector = [StringDetector detectorWithKeyword:keyword delegate:self];
 	[self.selections removeAllObjects];
     self.renderingStateStack = [RenderingStateStack stack];
