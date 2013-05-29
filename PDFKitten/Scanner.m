@@ -110,13 +110,17 @@
 	[self.renderingState translateTextPosition:CGSizeMake(width, 0)];
 }
 
-- (void)detectorDidStartMatching:(StringDetector *)stringDetector {
-	[self.selections addObject:[Selection selectionWithState:self.renderingState]];
+- (void)detectorDidStartMatching:(StringDetector *)detector {
+    possibleSelection = [[Selection selectionWithState:self.renderingState] retain];
 }
 
 - (void)detectorFoundString:(StringDetector *)detector {
-	Selection *selection = [self.selections lastObject];
-	selection.finalState = self.renderingState;
+    if (possibleSelection) {
+	    possibleSelection.finalState = self.renderingState;
+        [self.selections addObject:possibleSelection];
+        [possibleSelection release];
+        possibleSelection = nil;
+    }
 }
 
 - (RenderingState *)renderingState {
@@ -124,6 +128,7 @@
 }
 
 - (void)dealloc {
+    [possibleSelection release];
 	[fontCollection release];
 	[selections release];
 	[renderingStateStack release];
