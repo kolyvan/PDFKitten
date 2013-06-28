@@ -1,9 +1,9 @@
-#import "StringDetector.h"
+#import "PDFStringDetector.h"
 
-@implementation StringDetector
+@implementation PDFStringDetector
 
-+ (StringDetector *)detectorWithKeyword:(NSString *)keyword delegate:(id<StringDetectorDelegate>)delegate {
-	StringDetector *detector = [[StringDetector alloc] initWithKeyword:keyword];
++ (PDFStringDetector *)detectorWithKeyword:(NSString *)keyword delegate:(id<PDFStringDetectorDelegate>)delegate {
+	PDFStringDetector *detector = [[PDFStringDetector alloc] initWithKeyword:keyword];
 	detector.delegate = delegate;
 	return [detector autorelease];
 }

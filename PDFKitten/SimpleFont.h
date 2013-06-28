@@ -12,9 +12,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Font.h"
+#import "PDFFont.h"
 
-@interface SimpleFont : Font {
+@interface SimpleFont : PDFFont {
 }
 
 /* Custom implementation for all simple fonts */

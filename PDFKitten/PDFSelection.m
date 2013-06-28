@@ -1,14 +1,14 @@
-#import "Selection.h"
-#import "RenderingState.h"
+#import "PDFSelection.h"
+#import "PDFRenderingState.h"
 
 CGFloat horizontal(CGAffineTransform transform) {
 	return transform.tx / transform.a;
 }
 
-@implementation Selection
+@implementation PDFSelection
 
-+ (Selection *)selectionWithState:(RenderingState *)state {
-	Selection *selection = [[Selection alloc] init];
++ (PDFSelection *)selectionWithState:(PDFRenderingState *)state {
+	PDFSelection *selection = [[PDFSelection alloc] init];
 	selection.initialState = state;
 	return [selection autorelease];
 }
@@ -37,11 +37,11 @@ CGFloat horizontal(CGAffineTransform transform) {
 	return MIN([self descentInUserSpace:self.initialState], [self descentInUserSpace:self.finalState]);
 }
 
-- (CGFloat)ascentInUserSpace:(RenderingState *)state {
+- (CGFloat)ascentInUserSpace:(PDFRenderingState *)state {
 	return state.font.fontDescriptor.ascent * state.fontSize / 1000;
 }
 
-- (CGFloat)descentInUserSpace:(RenderingState *)state {
+- (CGFloat)descentInUserSpace:(PDFRenderingState *)state {
 	return state.font.fontDescriptor.descent * state.fontSize / 1000;
 }
 

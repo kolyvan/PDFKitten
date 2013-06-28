@@ -5,25 +5,23 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Font.h"
-#import "StringDetectorDelegate.h"
+#import "PDFFont.h"
+#import "PDFStringDetectorDelegate.h"
 
-@class StringDetector;
-
-@interface StringDetector : NSObject {
+@interface PDFStringDetector : NSObject {
 	NSString *keyword;
 	NSUInteger keywordPosition;
 	NSMutableString *unicodeContent;
-	id<StringDetectorDelegate> delegate;
+	id<PDFStringDetectorDelegate> delegate;
 }
 
-+ (StringDetector *)detectorWithKeyword:(NSString *)keyword delegate:(id<StringDetectorDelegate>)delegate;
++ (PDFStringDetector *)detectorWithKeyword:(NSString *)keyword delegate:(id<PDFStringDetectorDelegate>)delegate;
 - (id)initWithKeyword:(NSString *)needle;
 - (void)setKeyword:(NSString *)kword;
 - (void)reset;
 
 - (NSString *)appendString:(NSString *)inputString;
 
-@property (nonatomic, assign) id<StringDetectorDelegate> delegate;
+@property (nonatomic, assign) id<PDFStringDetectorDelegate> delegate;
 @property (nonatomic, retain) NSMutableString *unicodeContent;
 @end

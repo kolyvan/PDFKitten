@@ -10,9 +10,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Font.h"
+#import "PDFFont.h"
 
-@interface CompositeFont : Font {
+@interface CompositeFont : PDFFont {
     CGFloat defaultWidth;
 }
 

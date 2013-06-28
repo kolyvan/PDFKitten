@@ -2,14 +2,14 @@
 
 extern NSValue *rangeValue(unsigned int from, unsigned int to);
 
-@interface Operator : NSObject
-+ (Operator *)operatorWithStart:(NSString *)start end:(NSString *)end handler:(SEL)handler;
+@interface PDFOperator : NSObject
++ (PDFOperator *)operatorWithStart:(NSString *)start end:(NSString *)end handler:(SEL)handler;
 @property (retain) NSString *start;
 @property (retain) NSString *end;
 @property SEL handler;
 @end
 
-@interface CMap : NSObject {
+@interface PDFCMap : NSObject {
 	NSMutableDictionary *context;
 
 	/* CMap ranges */

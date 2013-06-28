@@ -1,16 +1,16 @@
 #import <Foundation/Foundation.h>
 
-@class RenderingState;
+@class PDFRenderingState;
 
-@interface Selection : NSObject
+@interface PDFSelection : NSObject
 
-+ (Selection *)selectionWithState:(RenderingState *)state;
++ (PDFSelection *)selectionWithState:(PDFRenderingState *)state;
 
 @property (nonatomic, readonly) CGRect frame;
 @property (nonatomic, readonly) CGAffineTransform transform;
 
-@property (nonatomic, copy) RenderingState *initialState;
-@property (nonatomic, copy) RenderingState *finalState;
+@property (nonatomic, copy) PDFRenderingState *initialState;
+@property (nonatomic, copy) PDFRenderingState *finalState;
 
 @property (nonatomic, readonly) CGFloat height;
 @property (nonatomic, readonly) CGFloat width;

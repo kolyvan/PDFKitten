@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "Font.h"
+#import "PDFFont.h"
 
-@interface RenderingState : NSObject <NSCopying> {
+@interface PDFRenderingState : NSObject <NSCopying> {
 	CGAffineTransform lineMatrix;
 	CGAffineTransform textMatrix;
 	CGAffineTransform ctm;
@@ -10,7 +10,7 @@
 	CGFloat characterSpacing;
 	CGFloat horizontalScaling;
 	CGFloat textRise;
-	Font *font;
+	PDFFont *font;
 	CGFloat fontSize;
 }
 
@@ -45,7 +45,7 @@
 @property (nonatomic, assign) CGFloat horizontalScaling;
 
 /* Font and font size */
-@property (nonatomic, retain) Font *font;
+@property (nonatomic, retain) PDFFont *font;
 @property (nonatomic, assign) CGFloat fontSize;
 
 @end

@@ -1,4 +1,4 @@
-#import "Font.h"
+#import "PDFFont.h"
 
 // Simple fonts
 #import "Type1Font.h"
@@ -33,12 +33,12 @@ typedef const unsigned char CharacterCode;
 #pragma mark 
 
 
-@implementation Font
+@implementation PDFFont
 
 #pragma mark - Initialization
 
 /* Factory method returns a Font object given a PDF font dictionary */
-+ (Font *)fontWithDictionary:(CGPDFDictionaryRef)dictionary
++ (PDFFont *)fontWithDictionary:(CGPDFDictionaryRef)dictionary
 {
 	const char *type = nil;
 	CGPDFDictionaryGetName(dictionary, kTypeKey, &type);
@@ -46,7 +46,7 @@ typedef const unsigned char CharacterCode;
 	const char *subtype = nil;
 	CGPDFDictionaryGetName(dictionary, kFontSubtypeKey, &subtype);
 
-	Font *font = nil;	
+	PDFFont *font = nil;	
 	if (!strcmp(subtype, kType0Key)) {
 		font = [Type0Font alloc];
 	}
@@ -137,7 +137,7 @@ typedef const unsigned char CharacterCode;
 {
 	CGPDFDictionaryRef descriptor;
 	if (!CGPDFDictionaryGetDictionary(dict, kFontDescriptorKey, &descriptor)) return;
-	FontDescriptor *desc = [[FontDescriptor alloc] initWithPDFDictionary:descriptor];
+	PDFFontDescriptor *desc = [[PDFFontDescriptor alloc] initWithPDFDictionary:descriptor];
 	self.fontDescriptor = desc;
 	[desc release];
 }
@@ -153,7 +153,7 @@ typedef const unsigned char CharacterCode;
 {
 	CGPDFStreamRef stream;
 	if (!CGPDFDictionaryGetStream(dict, kToUnicodeKey, &stream)) return;
-	CMap *map = [[CMap alloc] initWithPDFStream:stream];
+	PDFCMap *map = [[PDFCMap alloc] initWithPDFStream:stream];
 	self.toUnicode = map;
 	[map release];
 }

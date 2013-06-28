@@ -1,5 +1,5 @@
 #import "RenderingStateStack.h"
-#import "RenderingState.h"
+#import "PDFRenderingState.h"
 
 @implementation RenderingStateStack
 
@@ -12,7 +12,7 @@
 	if ((self = [super init]))
 	{
 		stack = [[NSMutableArray alloc] init];
-		RenderingState *rootRenderingState = [[RenderingState alloc] init];
+		PDFRenderingState *rootRenderingState = [[PDFRenderingState alloc] init];
 		[self pushRenderingState:rootRenderingState];
 		[rootRenderingState release];
 	}
@@ -20,21 +20,21 @@
 }
 
 /* The rendering state currently on top of the stack */
-- (RenderingState *)topRenderingState
+- (PDFRenderingState *)topRenderingState
 {
 	return [stack lastObject];
 }
 
 /* Push a rendering state to the stack */
-- (void)pushRenderingState:(RenderingState *)state
+- (void)pushRenderingState:(PDFRenderingState *)state
 {
 	[stack addObject:state];
 }
 
 /* Pops the top rendering state off the stack */
-- (RenderingState *)popRenderingState
+- (PDFRenderingState *)popRenderingState
 {
-	RenderingState *state = [stack lastObject];
+	PDFRenderingState *state = [stack lastObject];
 	[[stack retain] autorelease];
 	[stack removeLastObject];
 	return state;

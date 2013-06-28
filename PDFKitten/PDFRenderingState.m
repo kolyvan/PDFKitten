@@ -1,8 +1,8 @@
-#import "RenderingState.h"
+#import "PDFRenderingState.h"
 
 #define kGlyphSpaceScale 1000
 
-@implementation RenderingState
+@implementation PDFRenderingState
 
 - (id)init
 {
@@ -19,7 +19,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	RenderingState *copy = [[RenderingState alloc] init];
+	PDFRenderingState *copy = [[PDFRenderingState alloc] init];
 	copy.lineMatrix = self.lineMatrix;
 	copy.textMatrix = self.textMatrix;
 	copy.leadning = self.leadning;

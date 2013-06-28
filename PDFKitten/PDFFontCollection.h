@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "Font.h"
+#import "PDFFont.h"
 
-@interface FontCollection : NSObject {
+@interface PDFFontCollection : NSObject {
 	NSMutableDictionary *fonts;
 	NSArray *names;
 }
@@ -10,7 +10,7 @@
 - (id)initWithFontDictionary:(CGPDFDictionaryRef)dict;
 
 /* Return the specified font */
-- (Font *)fontNamed:(NSString *)fontName;
+- (PDFFont *)fontNamed:(NSString *)fontName;
 
 @property (nonatomic, readonly) NSDictionary *fontsByName;
 

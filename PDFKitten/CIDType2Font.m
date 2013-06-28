@@ -44,7 +44,7 @@
 {
 	size_t length = CGPDFStringGetLength(pdfString);
 	const unsigned char *cid = CGPDFStringGetBytePtr(pdfString);
-    NSMutableString *result = [[NSMutableString alloc] init];
+    NSMutableString *result = [NSMutableString string];
     NSData *data = [NSData dataWithBytes:cid length:length];
     NSLog(@"%@", data);
 	for (int i = 0; i < length; i+=2) {

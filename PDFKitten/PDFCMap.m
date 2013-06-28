@@ -1,4 +1,4 @@
-#import "CMap.h"
+#import "PDFCMap.h"
 
 static NSSet *sharedOperators = nil;
 static NSCharacterSet *sharedTagSet = nil;
@@ -10,11 +10,11 @@ NSValue *rangeValue(unsigned int from, unsigned int to)
 	return [NSValue valueWithRange:NSMakeRange(from, to-from)];
 }
 
-@implementation Operator
+@implementation PDFOperator
 
-+ (Operator *)operatorWithStart:(NSString *)start end:(NSString *)end handler:(SEL)handler
++ (PDFOperator *)operatorWithStart:(NSString *)start end:(NSString *)end handler:(SEL)handler
 {
-	Operator *op = [[[Operator alloc] init] autorelease];
+	PDFOperator *op = [[[PDFOperator alloc] init] autorelease];
 	op.start = start;
 	op.end = end;
 	op.handler = handler;
@@ -32,7 +32,7 @@ NSValue *rangeValue(unsigned int from, unsigned int to)
 @synthesize start, end, handler;
 @end
 
-@interface CMap ()
+@interface PDFCMap ()
 - (void)handleCodeSpaceRange:(NSString *)string;
 - (void)handleCharacter:(NSString *)string;
 - (void)handleCharacterRange:(NSString *)string;
@@ -43,7 +43,7 @@ NSValue *rangeValue(unsigned int from, unsigned int to)
 @property(readonly) NSSet *operators;
 @end
 
-@implementation CMap
+@implementation PDFCMap
 
 - (id)initWithString:(NSString *)string
 {
@@ -148,9 +148,9 @@ NSValue *rangeValue(unsigned int from, unsigned int to)
 #pragma mark -
 #pragma mark Scanner
 
-- (Operator *)operatorWithStartingToken:(NSString *)token {
+- (PDFOperator *)operatorWithStartingToken:(NSString *)token {
 	if (token) {
-        for (Operator *op in self.operators) {
+        for (PDFOperator *op in self.operators) {
             if ([op.start isEqualToString:token]) {
                 return op;
             }
@@ -199,7 +199,7 @@ NSValue *rangeValue(unsigned int from, unsigned int to)
 	{
 		token = [self tokenByTrimmingComments:scanner];
 
-		Operator *operator = [self operatorWithStartingToken:token];
+		PDFOperator *operator = [self operatorWithStartingToken:token];
 		if (operator)
 		{
 			// Start a new context
@@ -310,15 +310,15 @@ NSValue *rangeValue(unsigned int from, unsigned int to)
 - (NSSet *)operators {
     if (!sharedOperators) {
         sharedOperators = [[NSMutableSet alloc] initWithObjects:
-                [Operator operatorWithStart:@"begincodespacerange"
-                        end:@"endcodespacerange"
-                        handler:@selector(handleCodeSpaceRange:)],
-                [Operator operatorWithStart:@"beginbfchar"
-                        end:@"endbfchar"
-                        handler:@selector(handleCharacter:)],
-                [Operator operatorWithStart:@"beginbfrange"
-                        end:@"endbfrange"
-                        handler:@selector(handleCharacterRange:)],
+                           [PDFOperator operatorWithStart:@"begincodespacerange"
+                                                      end:@"endcodespacerange"
+                                                  handler:@selector(handleCodeSpaceRange:)],
+                           [PDFOperator operatorWithStart:@"beginbfchar"
+                                                      end:@"endbfchar"
+                                                  handler:@selector(handleCharacter:)],
+                           [PDFOperator operatorWithStart:@"beginbfrange"
+                                                      end:@"endbfrange"
+                                                  handler:@selector(handleCharacterRange:)],
                 nil];
     }
     return sharedOperators;

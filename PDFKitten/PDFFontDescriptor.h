@@ -18,7 +18,7 @@ typedef enum FontFlags
 } FontFlags;
 
 
-@interface FontDescriptor : NSObject {
+@interface PDFFontDescriptor : NSObject {
 	CGFloat descent;
 	CGFloat ascent;
 	CGFloat leading;

@@ -1,4 +1,4 @@
-#import "FontDescriptor.h"
+#import "PDFFontDescriptor.h"
 #import "TrueTypeFont.h"
 #import <CommonCrypto/CommonDigest.h>
 
@@ -19,7 +19,7 @@ const char *kFontBBoxKey = "FontBBox";
 const char *kFontFileKey = "FontFile";
 
 
-@implementation FontDescriptor
+@implementation PDFFontDescriptor
 
 - (id)initWithPDFDictionary:(CGPDFDictionaryRef)dict
 {

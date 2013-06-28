@@ -7,8 +7,8 @@
  *	
  */
 #import <Foundation/Foundation.h>
-#import "FontDescriptor.h"
-#import "CMap.h"
+#import "PDFFontDescriptor.h"
+#import "PDFCMap.h"
 
 extern const char *kFontDescriptorKey;
 extern const char *kTypeKey;
@@ -40,10 +40,10 @@ static inline BOOL knownEncoding(CharacterEncoding encoding)
 	return encoding > 0;
 }
 
-@interface Font : NSObject {
-	CMap *toUnicode;
+@interface PDFFont : NSObject {
+	PDFCMap *toUnicode;
 	NSMutableDictionary *widths;
-    FontDescriptor *fontDescriptor;
+    PDFFontDescriptor *fontDescriptor;
 	NSDictionary *ligatures;
 	NSRange widthsRange;
 	NSString *baseFont;
@@ -51,7 +51,7 @@ static inline BOOL knownEncoding(CharacterEncoding encoding)
 }
 
 /* Factory method returns a Font object given a PDF font dictionary */
-+ (Font *)fontWithDictionary:(CGPDFDictionaryRef)dictionary;
++ (PDFFont *)fontWithDictionary:(CGPDFDictionaryRef)dictionary;
 
 /* Initialize with a font dictionary */
 - (id)initWithFontDictionary:(CGPDFDictionaryRef)dict;
@@ -79,9 +79,9 @@ static inline BOOL knownEncoding(CharacterEncoding encoding)
 /* Return an equivalent string, replacing ligatures with individual characters */
 - (NSString *)stringByExpandingLigatures:(NSString *)string;
 
-@property (nonatomic, retain) CMap *toUnicode;
+@property (nonatomic, retain) PDFCMap *toUnicode;
 @property (nonatomic, retain) NSMutableDictionary *widths;
-@property (nonatomic, retain) FontDescriptor *fontDescriptor;
+@property (nonatomic, retain) PDFFontDescriptor *fontDescriptor;
 @property (nonatomic, readonly) CGFloat minY;
 @property (nonatomic, readonly) CGFloat maxY;
 @property (nonatomic, readonly) NSDictionary *ligatures;

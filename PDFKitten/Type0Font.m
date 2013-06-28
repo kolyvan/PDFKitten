@@ -50,7 +50,7 @@
 /* Custom implementation, using descendant fonts */
 - (CGFloat)widthOfCharacter:(unichar)characher withFontSize:(CGFloat)fontSize
 {
-	for (Font *font in self.descendantFonts)
+	for (PDFFont *font in self.descendantFonts)
 	{
 		CGFloat width = [font widthOfCharacter:characher withFontSize:fontSize];
 		if (width > 0) return width;
@@ -63,21 +63,21 @@
     return [[self.descendantFonts lastObject] ligatures];
 }
 
-- (FontDescriptor *)fontDescriptor {
-	Font *descendantFont = [self.descendantFonts lastObject];
+- (PDFFontDescriptor *)fontDescriptor {
+	PDFFont *descendantFont = [self.descendantFonts lastObject];
 	return descendantFont.fontDescriptor;
 }
 
 - (CGFloat)minY
 {
-	Font *descendantFont = [self.descendantFonts lastObject];
+	PDFFont *descendantFont = [self.descendantFonts lastObject];
 	return [descendantFont.fontDescriptor descent];
 }
 
 /* Highest point of any character */
 - (CGFloat)maxY
 {
-	Font *descendantFont = [self.descendantFonts lastObject];
+	PDFFont *descendantFont = [self.descendantFonts lastObject];
 	return [descendantFont.fontDescriptor ascent];
 }
 
@@ -99,7 +99,7 @@
 	}
 	else if ([self.descendantFonts count] > 0)
 	{
-		Font *descendantFont = [self.descendantFonts lastObject];
+		PDFFont *descendantFont = [self.descendantFonts lastObject];
 		return [descendantFont stringWithPDFString:pdfString];
 	}
 	return @"";
@@ -107,7 +107,7 @@
 
 - (NSString *)unicodeWithPDFString:(CGPDFStringRef)pdfString {
     NSMutableString *result;
-	Font *descendantFont = [self.descendantFonts lastObject];
+	PDFFont *descendantFont = [self.descendantFonts lastObject];
     NSString *descendantResult = [descendantFont stringWithPDFString: pdfString];
     if (self.toUnicode) {
         result = [[[NSMutableString alloc] initWithCapacity: [descendantResult length]] autorelease];
@@ -122,7 +122,7 @@
 }
 
 - (NSString *)cidWithPDFString:(CGPDFStringRef)pdfString {
-    Font *descendantFont = [self.descendantFonts lastObject];
+    PDFFont *descendantFont = [self.descendantFonts lastObject];
     return [descendantFont stringWithPDFString: pdfString];
 }
 
