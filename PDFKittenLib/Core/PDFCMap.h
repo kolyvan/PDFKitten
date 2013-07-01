@@ -1,16 +1,6 @@
 #import <Foundation/Foundation.h>
 
-extern NSValue *rangeValue(unsigned int from, unsigned int to);
-
-@interface PDFOperator : NSObject
-+ (PDFOperator *)operatorWithStart:(NSString *)start end:(NSString *)end handler:(SEL)handler;
-@property (retain) NSString *start;
-@property (retain) NSString *end;
-@property SEL handler;
-@end
-
 @interface PDFCMap : NSObject {
-	NSMutableDictionary *context;
 
 	/* CMap ranges */
 	NSMutableArray *codeSpaceRanges;
@@ -29,9 +19,9 @@ extern NSValue *rangeValue(unsigned int from, unsigned int to);
 - (id)initWithString:(NSString *)string;
 
 /* Unicode mapping for character ID */
-- (unichar)unicodeCharacter:(unichar)cid;
+- (NSUInteger)unicodeCharacter:(unichar)cid;
 
-- (unichar)cidCharacter:(unichar)unicode;
+- (NSUInteger)cidCharacter:(unichar)unicode;
 
 @property (nonatomic, retain) NSMutableArray *codeSpaceRanges;
 @property (nonatomic, retain) NSMutableDictionary *characterMappings;
