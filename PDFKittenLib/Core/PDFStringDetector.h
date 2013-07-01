@@ -11,7 +11,7 @@
 @interface PDFStringDetector : NSObject {
 	NSString *keyword;
 	NSUInteger keywordPosition;
-	NSMutableString *unicodeContent;
+	//NSMutableString *unicodeContent;
 	id<PDFStringDetectorDelegate> delegate;
 }
 
@@ -23,5 +23,5 @@
 - (NSString *)appendString:(NSString *)inputString;
 
 @property (nonatomic, assign) id<PDFStringDetectorDelegate> delegate;
-@property (nonatomic, retain) NSMutableString *unicodeContent;
+//@property (nonatomic, retain) NSMutableString *unicodeContent;
 @end

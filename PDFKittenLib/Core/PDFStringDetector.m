@@ -11,7 +11,7 @@
 - (id)initWithKeyword:(NSString *)string {
 	if (self = [super init]) {
         keyword = [[string lowercaseString] retain];
-        self.unicodeContent = [NSMutableString string];
+        //self.unicodeContent = [NSMutableString string];
 	}
 
 	return self;
@@ -21,7 +21,7 @@
 	NSString *lowercaseString = [inputString lowercaseString];
     int position = 0;
     if (lowercaseString) {
-        [unicodeContent appendString:lowercaseString];
+        //[unicodeContent appendString:lowercaseString];
     }
 
     while (position < inputString.length) {
@@ -78,10 +78,10 @@
 }
 
 - (void)dealloc {
-    [unicodeContent release];
+    //[unicodeContent release];
 	[keyword release];
 	[super dealloc];
 }
 
-@synthesize delegate, unicodeContent;
+@synthesize delegate; //, unicodeContent;
 @end
