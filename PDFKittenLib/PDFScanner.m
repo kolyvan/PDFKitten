@@ -4,6 +4,7 @@
 #import "PDFRenderingState.h"
 #import "PDFSelection.h"
 #import "RenderingStateStack.h"
+#import "SimpleFont.h"
 
 static void setHorizontalScale(CGPDFScannerRef pdfScanner, void *info);
 static void setTextLeading(CGPDFScannerRef pdfScanner, void *info);
@@ -71,6 +72,9 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
 	CGPDFScannerRelease(scanner);
 	CGPDFContentStreamRelease(contentStream);
 	CGPDFOperatorTableRelease(operatorTable);
+    
+    //NSLog(@"found %d for %@", self.selections.count, keyword);
+    //NSLog(@"content:%@", self.content);
 	
     self.stringDetector.delegate = nil;
     self.stringDetector = nil;
@@ -135,19 +139,47 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
 }
 
 - (void)detector:(PDFStringDetector *)detector didScanCharacter:(unichar)character {
+    
     PDFFont *font = self.renderingState.font;
-    unichar cid = character;
-    if (font.toUnicode) {
+    NSUInteger cid = character;
+    
+    if (!font.encoding && font.toUnicode) {
+        
         cid = [font.toUnicode cidCharacter:character];
+        if (cid == NSNotFound && character != 0x20) {
+            
+            NSLog(@"warning: no unicode cid for char %x", character);
+            cid = character;
+        }
+        
+    } else if ([font isKindOfClass:[SimpleFont class]] &&
+               ((SimpleFont *)font).encodingDifferences) {
+        
+        cid = [((SimpleFont *)font).encodingDifferences cidCharacter:character
+                                                        withEncoding:font.encoding];
+        
+        if (cid == NSNotFound && character != 0x20) {
+            
+            NSLog(@"warning: no encoding cid for char %x", character);
+            cid = character;
+        }
+        
+    } else {
+        
+        cid = (unichar)character;
     }
-
-	CGFloat width = [font widthOfCharacter:cid withFontSize:self.renderingState.fontSize];
-	width /= 1000;
-	width += self.renderingState.characterSpacing;
-	if (character == 32) {
-		width += self.renderingState.wordSpacing;
-	}
-
+    
+    CGFloat width = [font widthOfCharacter:cid withFontSize:self.renderingState.fontSize];
+    width /= 1000;
+    width += self.renderingState.characterSpacing;
+    if (character == 32) {
+        width += self.renderingState.wordSpacing;
+    }
+    
+    if (!width && character == 0x20) {
+        width = self.renderingState.widthOfSpace / 1000.f;
+    }
+    
 	[self.renderingState translateTextPosition:CGSizeMake(width, 0)];
 }
 
