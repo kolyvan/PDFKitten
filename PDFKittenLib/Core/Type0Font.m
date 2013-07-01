@@ -91,9 +91,14 @@
 		
         for (int i = 0; i < stringLength; i+=2)
 		{
-			unichar characterCode = characterCodes[i] << 8 | characterCodes[i+1];
-			unichar characterSelector = [self.toUnicode unicodeCharacter:characterCode];
-            [unicodeString appendFormat:@"%C", characterSelector];
+			const unichar characterCode = (characterCodes[i] << 8) | characterCodes[i+1];
+			const NSUInteger uni = [self.toUnicode unicodeCharacter:characterCode];
+            if (uni == NSNotFound) {                                
+                [unicodeString appendString:@"?"];
+            } else {
+                [unicodeString appendFormat:@"%C", (unichar)uni];
+            }
+        
 		}
 		return unicodeString;
 	}
@@ -112,8 +117,13 @@
     if (self.toUnicode) {
         result = [[[NSMutableString alloc] initWithCapacity: [descendantResult length]] autorelease];
         for (int i = 0; i < [descendantResult length]; i++) {
-            unichar character = [self.toUnicode unicodeCharacter:[descendantResult characterAtIndex:i]];
-		 	[result appendFormat:@"%C", character];
+            unichar characterCode = [descendantResult characterAtIndex:i];
+            const NSUInteger uni = [self.toUnicode unicodeCharacter:characterCode];
+            if (uni == NSNotFound) {                
+                [result appendString:@"?"];
+            } else {
+                [result appendFormat:@"%C", (unichar)uni];
+            }
         }        
     } else {
         result = [NSMutableString stringWithString: descendantResult];
