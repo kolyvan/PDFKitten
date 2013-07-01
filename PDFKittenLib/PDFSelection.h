@@ -16,4 +16,7 @@
 @property (nonatomic, readonly) CGFloat width;
 @property (nonatomic, readonly) CGFloat descent;
 @property (nonatomic, readonly) CGFloat ascent;
+
+@property (nonatomic, readwrite) NSUInteger foundLocation;
+
 @end

@@ -185,6 +185,7 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
 
 - (void)detectorDidStartMatching:(PDFStringDetector *)detector {
     possibleSelection = [[PDFSelection selectionWithState:self.renderingState] retain];
+    possibleSelection.foundLocation = self.content.length;
 }
 
 - (void)detectorFoundString:(PDFStringDetector *)detector {
@@ -229,7 +230,7 @@ void didScanSpace(float value, void *info) {
         PDFStringDetector *stringDetector = scanner.stringDetector;
         [stringDetector appendString:@" "];
         [scanner.content appendString:@" "];
-        [scanner.stringDetector reset];
+        //[scanner.stringDetector reset];
     }
 }
 
