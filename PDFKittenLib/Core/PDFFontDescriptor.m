@@ -27,7 +27,8 @@ const char *kFontFileKey = "FontFile";
 	CGPDFDictionaryGetName(dict, kTypeKey, &type);
 	if (!type || strcmp(type, kFontDescriptorKey) != 0)
 	{
-		[self release]; return nil;
+		// some editior may omit /FontDescriptor key
+		// [self release]; return nil;
 	}
 
 	if ((self = [super init]))
