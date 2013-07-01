@@ -49,6 +49,9 @@
 		87472CA6177DB83D00899C6C /* TrueTypeFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 87472C9F177DB83D00899C6C /* TrueTypeFont.m */; };
 		87472CA7177DB83D00899C6C /* Type1Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 87472CA1177DB83D00899C6C /* Type1Font.m */; };
 		87472CA8177DB83D00899C6C /* Type3Font.m in Sources */ = {isa = PBXBuildFile; fileRef = 87472CA3177DB83D00899C6C /* Type3Font.m */; };
+		87D5998517813B630087E81B /* PDFEncodingDifferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D5998417813B630087E81B /* PDFEncodingDifferences.m */; };
+		87D5998F17813C0C0087E81B /* adobe_charset in Resources */ = {isa = PBXBuildFile; fileRef = 87D5998D17813C0C0087E81B /* adobe_charset */; };
+		87D5999017813C0C0087E81B /* adobe_glyphs in Resources */ = {isa = PBXBuildFile; fileRef = 87D5998E17813C0C0087E81B /* adobe_glyphs */; };
 		87FD1536177DAEDA00070AAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E15AD13589B0B004096C7 /* Foundation.framework */; };
 		87FD1545177DB04C00070AAA /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C38D8E613EF370700718B0D /* Security.framework */; };
 		87FD1546177DB08900070AAA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0E15AB13589B0B004096C7 /* UIKit.framework */; };
@@ -163,6 +166,10 @@
 		87472CA1177DB83D00899C6C /* Type1Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Type1Font.m; path = Core/Type1Font.m; sourceTree = "<group>"; };
 		87472CA2177DB83D00899C6C /* Type3Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Type3Font.h; path = Core/Type3Font.h; sourceTree = "<group>"; };
 		87472CA3177DB83D00899C6C /* Type3Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Type3Font.m; path = Core/Type3Font.m; sourceTree = "<group>"; };
+		87D5998317813B630087E81B /* PDFEncodingDifferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDFEncodingDifferences.h; path = Core/PDFEncodingDifferences.h; sourceTree = "<group>"; };
+		87D5998417813B630087E81B /* PDFEncodingDifferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDFEncodingDifferences.m; path = Core/PDFEncodingDifferences.m; sourceTree = "<group>"; };
+		87D5998D17813C0C0087E81B /* adobe_charset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = adobe_charset; path = resources/adobe_charset; sourceTree = "<group>"; };
+		87D5998E17813C0C0087E81B /* adobe_glyphs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = adobe_glyphs; path = resources/adobe_glyphs; sourceTree = "<group>"; };
 		87FD1535177DAEDA00070AAA /* libPDFKittenLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPDFKittenLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		87FD1549177DB0B000070AAA /* PDFKittenLib-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PDFKittenLib-Prefix.pch"; sourceTree = "<group>"; };
 		87FD1572177DB32200070AAA /* PDFScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFScanner.h; sourceTree = "<group>"; };
@@ -213,6 +220,7 @@
 		2C0E159C13589B0B004096C7 = {
 			isa = PBXGroup;
 			children = (
+				87D5998C17813BEE0087E81B /* resources */,
 				2C0E15B113589B0B004096C7 /* PDFKitten */,
 				2C35AD72167E02E000BA5F79 /* PDFKittenTests */,
 				87FD1537177DAEDA00070AAA /* PDFKittenLib */,
@@ -331,6 +339,8 @@
 		87472C6B177DB6CA00899C6C /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				87D5998317813B630087E81B /* PDFEncodingDifferences.h */,
+				87D5998417813B630087E81B /* PDFEncodingDifferences.m */,
 				87472C7B177DB80200899C6C /* FontFile.h */,
 				87472C7C177DB80200899C6C /* FontFile.m */,
 				87472C7D177DB80200899C6C /* PDFCMap.h */,
@@ -408,6 +418,15 @@
 				87472CA3177DB83D00899C6C /* Type3Font.m */,
 			);
 			name = "Simple Fonts";
+			sourceTree = "<group>";
+		};
+		87D5998C17813BEE0087E81B /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				87D5998D17813C0C0087E81B /* adobe_charset */,
+				87D5998E17813C0C0087E81B /* adobe_glyphs */,
+			);
+			name = resources;
 			sourceTree = "<group>";
 		};
 		87FD1537177DAEDA00070AAA /* PDFKittenLib */ = {
@@ -527,6 +546,8 @@
 				2CDC3F81138977C1006CC6FB /* MainWindow.xib in Resources */,
 				2CA0FCA613EEB1C00028DCCD /* PageViewController.xib in Resources */,
 				2C77F7B41442381300767E6A /* Kurt the Cat.pdf in Resources */,
+				87D5998F17813C0C0087E81B /* adobe_charset in Resources */,
+				87D5999017813C0C0087E81B /* adobe_glyphs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +627,7 @@
 				87472CA6177DB83D00899C6C /* TrueTypeFont.m in Sources */,
 				87472CA7177DB83D00899C6C /* Type1Font.m in Sources */,
 				87472CA8177DB83D00899C6C /* Type3Font.m in Sources */,
+				87D5998517813B630087E81B /* PDFEncodingDifferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
