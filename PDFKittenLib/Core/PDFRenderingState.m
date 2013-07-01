@@ -30,6 +30,7 @@
 	copy.font = self.font;
 	copy.fontSize = self.fontSize;
 	copy.ctm = self.ctm;
+    copy->cachedWidthOfSpace = self->cachedWidthOfSpace;
 	return copy;
 }
 
@@ -84,6 +85,44 @@
 	aSize.width = [self convertToUserSpace:aSize.width];
 	aSize.height = [self convertToUserSpace:aSize.height];
 	return aSize;
+}
+
+- (CGFloat) widthOfSpace
+{   
+    if (!cachedWidthOfSpace) {
+        
+        cachedWidthOfSpace = self.font.widthOfSpace;
+        
+        if (!cachedWidthOfSpace && self.font.fontDescriptor) {
+            
+            cachedWidthOfSpace = self.font.fontDescriptor.missingWidth;
+        }
+        
+        if (!cachedWidthOfSpace && self.font.fontDescriptor) {
+            
+            cachedWidthOfSpace = self.font.fontDescriptor.averageWidth;
+        }
+        
+        if (!cachedWidthOfSpace) {
+            
+            // find a minimum width
+            
+            for (NSNumber *number in self.font.widths.allValues) {
+                
+                const CGFloat f = number.floatValue;
+                if (f > 0 && (!cachedWidthOfSpace || (f < cachedWidthOfSpace))) {
+                    cachedWidthOfSpace = f;
+                }
+            }            
+        }
+        
+        if (!cachedWidthOfSpace) {
+            // TODO: find another way for detecting widthOfSpace in this case
+            cachedWidthOfSpace = 100.f;
+        }
+    }
+    
+    return cachedWidthOfSpace;
 }
 
 

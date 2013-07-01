@@ -12,6 +12,7 @@
 	CGFloat textRise;
 	PDFFont *font;
 	CGFloat fontSize;
+    CGFloat cachedWidthOfSpace;
 }
 
 /* Set the text matrix and (optionally) the line matrix */
@@ -47,5 +48,7 @@
 /* Font and font size */
 @property (nonatomic, retain) PDFFont *font;
 @property (nonatomic, assign) CGFloat fontSize;
+
+- (CGFloat) widthOfSpace;
 
 @end

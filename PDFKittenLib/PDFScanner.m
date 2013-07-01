@@ -184,8 +184,8 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
 ///
 
 
-BOOL isSpace(float width, PDFScanner *scanner) {
-	return abs(width) >= scanner.renderingState.font.widthOfSpace;
+static BOOL isSpace(float width, PDFScanner *scanner) {
+	return abs(width) >= scanner.renderingState.widthOfSpace;
 }
 
 void didScanSpace(float value, void *info) {
