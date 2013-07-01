@@ -172,9 +172,9 @@ typedef const unsigned char CharacterCode;
 	return unicodeString;
 }
 
-- (unichar)mappedUnicodeValue:(CharacterCode)character
+- (NSUInteger)mappedUnicodeValue:(CharacterCode)character
 {
-    unichar value = [self.toUnicode unicodeCharacter:character];
+    const NSUInteger value = [self.toUnicode unicodeCharacter:character];
     return (value == NSNotFound) ? value : [self encodedUnicodeValue:character];
 }
 
@@ -205,8 +205,12 @@ typedef const unsigned char CharacterCode;
     for (int i = 0; i < characterCodeCount; i++)
     {
         CharacterCode code = characterCodes[i];
-        unichar value = [self mappedUnicodeValue:code];
-        [string appendFormat:@"%C", value];
+        const NSUInteger uni = [self mappedUnicodeValue:code];
+        if (uni == NSNotFound) {
+            [string appendFormat:@"%c", code];
+        } else {
+            [string appendFormat:@"%C", (unichar)uni];
+        }        
     }
 	
 	return [NSString stringWithString:string];
@@ -228,7 +232,12 @@ typedef const unsigned char CharacterCode;
 		for (int i = 0; i < length; i++)
 		{
             const unsigned char cid = bytes[i];
-		 	[unicodeString appendFormat:@"%C", [self.toUnicode unicodeCharacter:cid]];
+            const NSUInteger uni =[self.toUnicode unicodeCharacter:cid];
+            if (uni == NSNotFound) {
+                [unicodeString appendFormat:@"%c", cid];
+            } else {
+                [unicodeString appendFormat:@"%C", (unichar)uni];
+            }
 		}
 		return unicodeString;
 	}
