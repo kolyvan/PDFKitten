@@ -193,6 +193,10 @@ void didScanSpace(float value, void *info) {
     float width = [scanner.renderingState convertToUserSpace:value];
     [scanner.renderingState translateTextPosition:CGSizeMake(-width, 0)];
     if (isSpace(value, scanner)) {
+        
+        PDFStringDetector *stringDetector = scanner.stringDetector;
+        [stringDetector appendString:@" "];
+        [scanner.content appendString:@" "];
         [scanner.stringDetector reset];
     }
 }
@@ -344,9 +348,15 @@ static void printString(CGPDFScannerRef pdfScanner, void *info) {
 	didScanString(getString(pdfScanner), info);
 }
 
-static void printStringNewLine(CGPDFScannerRef scanner, void *info) {
-	newLine(scanner, info);
-	printString(scanner, info);
+static void printStringNewLine(CGPDFScannerRef pdfScanner, void *info) {
+	newLine(pdfScanner, info);
+	printString(pdfScanner, info);
+    
+    PDFScanner *scanner = (PDFScanner *) info;
+    PDFStringDetector *stringDetector = scanner.stringDetector;
+    [stringDetector appendString:@"\n"];
+    [scanner.content appendString:@"\n"];
+    [scanner.stringDetector reset];
 }
 
 static void printStringNewLineSetSpacing(CGPDFScannerRef scanner, void *info) {
@@ -368,6 +378,11 @@ static void printStringsAndSpaces(CGPDFScannerRef pdfScanner, void *info) {
 			didScanSpace(getNumericalValue(pdfObject, valueType), info);
 		}
 	}
+    
+    PDFScanner *scanner = (PDFScanner *) info;
+    PDFStringDetector *stringDetector = scanner.stringDetector;
+    [stringDetector appendString:@" "];
+    [scanner.content appendString:@" "];
 }
 
 
