@@ -113,7 +113,9 @@
                 if (f > 0 && (!cachedWidthOfSpace || (f < cachedWidthOfSpace))) {
                     cachedWidthOfSpace = f;
                 }
-            }            
+            }
+            
+            cachedWidthOfSpace *= 0.75f;
         }
         
         if (!cachedWidthOfSpace) {
