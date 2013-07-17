@@ -184,6 +184,13 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
 }
 
 - (void)detectorDidStartMatching:(PDFStringDetector *)detector {
+    
+    if (possibleSelection) {
+        
+        [possibleSelection release];
+        possibleSelection = nil;
+    }
+    
     possibleSelection = [[PDFSelection selectionWithState:self.renderingState] retain];
     possibleSelection.foundLocation = self.content.length;
 }

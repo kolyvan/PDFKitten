@@ -45,5 +45,16 @@ CGFloat horizontal(CGAffineTransform transform) {
 	return state.font.fontDescriptor.descent * state.fontSize / 1000;
 }
 
+- (void)dealloc {
+    
+    if (_initialState)
+        [_initialState release], _initialState = nil;
+    
+    if (_finalState)
+        [_finalState release], _finalState = nil;
+	
+	[super dealloc];
+}
+
 @synthesize frame, transform;
 @end
