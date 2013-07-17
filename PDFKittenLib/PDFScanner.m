@@ -25,6 +25,9 @@ static void pushRenderingState(CGPDFScannerRef pdfScanner, void *info);
 static void popRenderingState(CGPDFScannerRef pdfScanner, void *info);
 static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
 
+@interface PDFStringDetectorBBox : PDFStringDetector
+@property (readonly, nonatomic) CGRect result;
+@end
 
 @interface PDFScanner() <PDFStringDetectorDelegate>
 @property (nonatomic, readonly) PDFRenderingState *renderingState;
@@ -80,6 +83,36 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info);
     self.stringDetector = nil;
     
 	return self.selections;
+}
+
+- (CGRect)boundingBox
+{
+    self.content = nil;
+	[self.selections removeAllObjects];
+    
+    PDFStringDetectorBBox *pdfBBOX = [[PDFStringDetectorBBox alloc] initWithKeyword:nil];
+    
+    self.stringDetector = pdfBBOX;
+	self.stringDetector.delegate = self;
+	
+    self.renderingStateStack = [RenderingStateStack stack];
+        
+ 	CGPDFOperatorTableRef operatorTable = [self newOperatorTable];
+	CGPDFContentStreamRef contentStream = CGPDFContentStreamCreateWithPage(pdfPage);
+	CGPDFScannerRef scanner = CGPDFScannerCreate(contentStream, operatorTable, self);
+	CGPDFScannerScan(scanner);
+	
+	CGPDFScannerRelease(scanner);
+	CGPDFContentStreamRelease(contentStream);
+	CGPDFOperatorTableRelease(operatorTable);
+    
+    self.stringDetector.delegate = nil;
+    self.stringDetector = nil;
+        
+    const CGRect result = pdfBBOX.result;
+    [pdfBBOX release];
+    
+    return result;
 }
 
 - (CGPDFOperatorTableRef)newOperatorTable {
@@ -448,3 +481,38 @@ static void applyTransformation(CGPDFScannerRef pdfScanner, void *info) {
 }
 
 
+#pragma mark - PDFStringDetectorBBox
+
+@implementation PDFStringDetectorBBox {
+    
+    BOOL _resultIsValid;
+}
+
+- (NSString *)appendString:(NSString *)inputString
+{    
+    PDFScanner *scanner = delegate;
+    PDFSelection *selection = [PDFSelection selectionWithState:scanner.renderingState];
+    
+    int position = 0;
+    while (position < inputString.length) {
+        
+		unichar inputCharacter = [inputString characterAtIndex:position];
+		[delegate detector:self didScanCharacter:inputCharacter];
+        ++position;        
+    }
+    
+    selection.finalState = scanner.renderingState;
+    const CGRect bbox = CGRectApplyAffineTransform(selection.frame, selection.transform);
+    if (_resultIsValid) {
+        
+        _result = CGRectUnion(bbox, _result);
+        
+    } else {
+        
+        _resultIsValid = YES;
+        _result = bbox;
+    }
+        
+    return inputString;
+}
+@end
