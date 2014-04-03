@@ -5,6 +5,28 @@ CGFloat horizontal(CGAffineTransform transform) {
 	return transform.tx / transform.a;
 }
 
+
+@implementation PDFRenderingState (Selection)
+
+- (CGFloat)userSpaceBoundsY {
+    return [self convertToUserSpace:self.font.fontDescriptor.bounds.origin.y];
+}
+
+- (CGFloat)userSpaceBoundsHeight {
+    return [self convertToUserSpace:self.font.fontDescriptor.bounds.size.height];
+}
+
+- (CGFloat)userSpaceAscent {
+	return [self convertToUserSpace:self.font.fontDescriptor.ascent];
+}
+
+- (CGFloat)userSpaceDescent {
+	return [self convertToUserSpace:self.font.fontDescriptor.descent];
+}
+
+@end
+
+
 @implementation PDFSelection
 
 + (PDFSelection *)selectionWithState:(PDFRenderingState *)state {
@@ -18,11 +40,28 @@ CGFloat horizontal(CGAffineTransform transform) {
 }
 
 - (CGRect)frame {
-	return CGRectMake(0, self.descent, self.width, self.height);
+	return CGRectMake(0, self.originY, self.width, self.height);
+}
+
+- (CGFloat)originY {
+    
+    CGFloat result = MIN([self.initialState userSpaceBoundsY], [self.finalState userSpaceBoundsY]);
+    
+    result = MIN(result, self.descent);
+    
+    return result;
 }
 
 - (CGFloat)height {
-	return self.ascent - self.descent;
+    
+    CGFloat result = MAX(self.initialState.fontSize, self.finalState.fontSize);
+    
+    result = MAX(result, [self.initialState userSpaceBoundsHeight]);
+    result = MAX(result, [self.finalState userSpaceBoundsHeight]);
+    
+    result = MAX(result, self.ascent - self.descent);
+    
+	return result;
 }
 
 - (CGFloat)width {
@@ -30,19 +69,11 @@ CGFloat horizontal(CGAffineTransform transform) {
 }
 
 - (CGFloat)ascent {
-	return MAX([self ascentInUserSpace:self.initialState], [self ascentInUserSpace:self.finalState]);
+	return MAX([self.initialState userSpaceAscent], [self.finalState userSpaceAscent]);
 }
 
 - (CGFloat)descent {
-	return MIN([self descentInUserSpace:self.initialState], [self descentInUserSpace:self.finalState]);
-}
-
-- (CGFloat)ascentInUserSpace:(PDFRenderingState *)state {
-	return state.font.fontDescriptor.ascent * state.fontSize / 1000;
-}
-
-- (CGFloat)descentInUserSpace:(PDFRenderingState *)state {
-	return state.font.fontDescriptor.descent * state.fontSize / 1000;
+	return MIN([self.initialState userSpaceDescent], [self.finalState userSpaceDescent]);
 }
 
 - (void)dealloc {

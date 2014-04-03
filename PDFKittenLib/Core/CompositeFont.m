@@ -24,14 +24,13 @@
 {
     NSUInteger length = CGPDFArrayGetCount(widthsArray);
     int idx = 0;
-    CGPDFObjectRef nextObject = nil;
+
     while (idx < length)
     {
         CGPDFInteger baseCid = 0;
         CGPDFArrayGetInteger(widthsArray, idx++, &baseCid);
 
         CGPDFObjectRef integerOrArray = nil;
-        CGPDFInteger firstCharacter = 0;
 		CGPDFArrayGetObject(widthsArray, idx++, &integerOrArray);
 		if (CGPDFObjectGetType(integerOrArray) == kCGPDFObjectTypeInteger)
 		{
@@ -41,22 +40,6 @@
 			CGPDFObjectGetValue(integerOrArray, kCGPDFObjectTypeInteger, &maxCid);
 			CGPDFArrayGetInteger(widthsArray, idx++, &glyphWidth);
 			[self setWidthsFrom:baseCid to:maxCid width:glyphWidth];
-
-			// If the second item is an array, the sequence
-			// defines widths on the form [ first list-of-widths ]
-			CGPDFArrayRef characterWidths;
-			if (!CGPDFObjectGetValue(nextObject, kCGPDFObjectTypeArray, &characterWidths)) break;
-			NSUInteger widthsCount = CGPDFArrayGetCount(characterWidths);
-			for (int index = 0; index < widthsCount ; index++)
-			{
-				CGPDFInteger width;
-				if (CGPDFArrayGetInteger(characterWidths, index, &width))
-				{
-					NSNumber *key = [NSNumber numberWithInt:firstCharacter+index];
-					NSNumber *val = [NSNumber numberWithInt:width];
-					[widths setObject:val forKey:key];
-				}
-			}
 		}
 		else
 		{
