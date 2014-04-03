@@ -5,6 +5,8 @@
 /* Override with implementation for composite fonts */
 - (void)setWidthsWithFontDictionary:(CGPDFDictionaryRef)dict
 {
+    [super setWidthsWithFontDictionary:dict];
+    
 	CGPDFArrayRef widthsArray;
 	if (CGPDFDictionaryGetArray(dict, "W", &widthsArray))
     {
@@ -89,7 +91,7 @@
 
 - (CGFloat)widthOfCharacter:(unichar)characher withFontSize:(CGFloat)fontSize
 {
-	NSNumber *width = [self.widths objectForKey:[NSNumber numberWithInt:characher - 30]];
+	NSNumber *width = [self.widths objectForKey:[NSNumber numberWithInt:characher]];
 	if (!width)
 	{
 		return self.defaultWidth * fontSize;
